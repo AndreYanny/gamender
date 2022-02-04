@@ -1,5 +1,4 @@
 import sqlite3
-import games_table as gat
 
 conn = sqlite3.connect('gamender.db')
 c = conn.cursor()
@@ -38,4 +37,11 @@ def change_username(u_id, name):
         c.execute('UPDATE users SET username = ? WHERE user_id = ?', user)
     else:
         print("Username already exists")
+    conn.commit()
+
+
+def add_genres(u_id, *genres):
+    c.execute('SELECT username FROM users WHERE user_id = ?', (u_id,))
+    for g in genres:
+        c.execute('INSERT INTO users (liked_genres) VALUES (?)', (genres,))
     conn.commit()

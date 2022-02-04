@@ -4,11 +4,11 @@ conn = sqlite3.connect('gamender.db')
 c = conn.cursor()
 
 
-def add_game(name, genre_id):
-    game = (name, genre_id)
+def add_game(name, genre_name):
+    game = (name, genre_name)
     c.execute('SELECT game_name FROM games_genres WHERE game_name = ?', (name, ))
     if not c.fetchone():
-        c.execute('INSERT INTO games_genres (game_name, genre_id) VALUES (?, ?)', game)
+        c.execute('INSERT INTO games_genres (game_name, genre) VALUES (?, ?)', game)
     else:
         print("Game already exists")
     conn.commit()
