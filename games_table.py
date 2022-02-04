@@ -1,5 +1,4 @@
 import sqlite3
-import genre_table as get
 
 conn = sqlite3.connect('gamender.db')
 c = conn.cursor()

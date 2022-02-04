@@ -26,5 +26,5 @@ c.execute(
 
 # Create Handlers Table
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS handlers(handler_id integer PRIMARY KEY)'''
+    '''CREATE TABLE IF NOT EXISTS handler(handler_id integer PRIMARY KEY AUTOINCREMENT)'''
 )
