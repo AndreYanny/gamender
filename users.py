@@ -4,6 +4,7 @@ conn = sqlite3.connect('gamender.db')
 c = conn.cursor()
 
 
+# User Makes an Account (Register)
 def add_user(name, password):
     user = (name, password)
     c.execute('SELECT username FROM users WHERE username = ?', (name,))
@@ -50,7 +51,9 @@ def get_user_games(u_id):
 def add_genre(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
-    c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
+    c.execute('SELECT * FROM genre WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
+    if not c.fetchone():
+        c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
     conn.commit()
 
 
