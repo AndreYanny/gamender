@@ -17,7 +17,7 @@ c.execute(
     '''game_name text, '''
     '''score integer, '''
     '''genre_id integer, '''
-    '''FOREIGN KEY (genre_id) REFERENCES games_genres(genre_id))'''
+    '''FOREIGN KEY (genre_id) REFERENCES genre(genre_id))'''
 )
 
 

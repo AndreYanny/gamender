@@ -1,5 +1,5 @@
-import users_table as ut
+import sqlite3
 
 print('hi')
-genres = ['Action', 'RPG', 'Racing']
-ut.add_genres(1, genres)
+conn = sqlite3.connect('gamender.db')
+c = conn.cursor()
