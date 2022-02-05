@@ -59,6 +59,7 @@ def delete_genres(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
     c.execute('DELETE FROM users_genres WHERE u_id = ? AND genre_id = ?', (u_id, genre_id))
+    conn.commit()
 
 
 # Add User to Handlers Table
@@ -68,3 +69,4 @@ def add_user_to_handlers(u_id):
     c.execute('SELECT name FROM handler WHERE name = ?', (name,))
     if not c.fetchone():
         c.execute('INSERT INTO handler (name) VALUES (?)', (name,))
+    conn.commit()
