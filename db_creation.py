@@ -6,7 +6,7 @@ c = conn.cursor()
 
 # Create Users Table
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS users(user_id integer PRIMARY KEY AUTOINCREMENT, '''
+    '''CREATE TABLE IF NOT EXISTS user(user_id integer PRIMARY KEY AUTOINCREMENT, '''
     '''username text, '''
     '''password text)'''
 )
@@ -15,7 +15,9 @@ c.execute(
 c.execute(
     '''CREATE TABLE IF NOT EXISTS game(game_id integer PRIMARY KEY AUTOINCREMENT, '''
     '''game_name text, '''
-    '''score integer)'''
+    '''score integer, '''
+    '''genre_id integer, '''
+    '''FOREIGN KEY (genre_id) REFERENCES games_genres(genre_id))'''
 )
 
 
@@ -36,46 +38,56 @@ c.execute(
 c.execute(
     '''CREATE TABLE IF NOT EXISTS tweet(tweet_id integer PRIMARY KEY AUTOINCREMENT, '''
     '''tweet char(280), '''
-    '''h_id integer, '''
-    '''FOREIGN KEY (h_id) REFERENCES handler(handler_id))'''
+    '''handler_id integer, '''
+    '''FOREIGN KEY (handler_id) REFERENCES handler(handler_id))'''
 )
 
 
 # Create users_genres Table (Many-to-Many Relation)
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS users_genres(u_id integer, '''
-    '''g_id integer, '''
-    '''PRIMARY KEY (u_id, g_id), '''
-    '''FOREIGN KEY (u_id) REFERENCES user(user_id), '''
-    '''FOREIGN KEY (g_id) REFERENCES genre(genre_id))'''
+    '''CREATE TABLE IF NOT EXISTS users_genres(user_id integer, '''
+    '''genre_id integer, '''
+    '''PRIMARY KEY (user_id, genre_id), '''
+    '''FOREIGN KEY (user_id) REFERENCES user(user_id), '''
+    '''FOREIGN KEY (genre_id) REFERENCES genre(genre_id))'''
+)
+
+
+# Create users_games Table (Many-to-Many Relation)
+c.execute(
+    '''CREATE TABLE IF NOT EXISTS users_games(user_id integer, '''
+    '''game_id integer, '''
+    '''PRIMARY KEY (user_id, game_id), '''
+    '''FOREIGN KEY (user_id) REFERENCES user(user_id), '''
+    '''FOREIGN KEY (game_id) REFERENCES game(game_id))'''
 )
 
 
 # Create users_handlers Table (Many-to-Many Relation)
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS users_handlers(u_id integer, '''
-    '''h_id integer, '''
-    '''PRIMARY KEY (u_id, h_id), '''
-    '''FOREIGN KEY (u_id) REFERENCES user(user_id), '''
-    '''FOREIGN KEY (h_id) REFERENCES handler(handler_id))'''
+    '''CREATE TABLE IF NOT EXISTS users_handlers(user_id integer, '''
+    '''handler_id integer, '''
+    '''PRIMARY KEY (user_id, handler_id), '''
+    '''FOREIGN KEY (user_id) REFERENCES user(user_id), '''
+    '''FOREIGN KEY (handler_id) REFERENCES handler(handler_id))'''
 )
 
 
 # Create handlers_games Table (Many-to-Many Relation)
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS handlers_games(h_id integer, '''
-    '''g_id integer, '''
-    '''PRIMARY KEY (h_id, g_id), '''
-    '''FOREIGN KEY (h_id) REFERENCES handler(handler_id), '''
-    '''FOREIGN KEY (g_id) REFERENCES game(game_id))'''
+    '''CREATE TABLE IF NOT EXISTS handlers_games(handler_id integer, '''
+    '''game_id integer, '''
+    '''PRIMARY KEY (handler_id, game_id), '''
+    '''FOREIGN KEY (handler_id) REFERENCES handler(handler_id), '''
+    '''FOREIGN KEY (game_id) REFERENCES game(game_id))'''
 )
 
 
 # Create games_genres Table (Many-to-Many Relation)
 c.execute(
-    '''CREATE TABLE IF NOT EXISTS games_genres(g_id integer, '''
-    '''ge_id integer, '''
-    '''PRIMARY KEY (g_id, ge_id), '''
-    '''FOREIGN KEY (g_id) REFERENCES game(game_id), '''
-    '''FOREIGN KEY (ge_id) REFERENCES genre(genre_id))'''
+    '''CREATE TABLE IF NOT EXISTS games_genres(game_id integer, '''
+    '''genre_id integer, '''
+    '''PRIMARY KEY (game_id, genre_id), '''
+    '''FOREIGN KEY (game_id) REFERENCES game(game_id), '''
+    '''FOREIGN KEY (genre_id) REFERENCES genre(genre_id))'''
 )
