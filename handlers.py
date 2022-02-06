@@ -1,4 +1,5 @@
 import sqlite3
+import games as g
 
 conn = sqlite3.connect('gamender.db')
 c = conn.cursor()
@@ -11,7 +12,8 @@ def add_handler(h_id):
     conn.commit()
 
 
-def add_liked_games(h_id, game_id):
+def add_liked_games(h_id, game_name):
+    game_id = g.get_game_id(game_name)
     c.execute('SELECT game_id FROM handlers_games WHERE handler_id = ? AND game_id = ?', (h_id, game_id))
     if not c.fetchone():
         c.execute('INSERT INTO handlers_games (handler_id, game_id) VALUES (?, ?)', (h_id, game_id))

@@ -11,6 +11,13 @@ def get_game_genre(game_id):
     return genre_id
 
 
+def get_game_name(game_id):
+    c.execute('SELECT game_name FROM game WHERE game_id = ?', (game_id,))
+    game_name = c.fetchone()
+    game_name = game_name[0]
+    return game_name
+
+
 def get_game_id(game_name):
     c.execute('SELECT game_id FROM game WHERE game_name = ?', (game_name,))
     game_id = c.fetchone()
