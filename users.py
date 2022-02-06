@@ -8,6 +8,20 @@ conn = sqlite3.connect(db_path)
 c = conn.cursor()
 
 
+def get_user_name(u_id):
+    c.execute('SELECT username FROM user WHERE user_id = ?', (u_id,))
+    u_name = c.fetchone()
+    u_name = u_name[0]
+    return u_name
+
+
+def get_user_id(u_name):
+    c.execute('SELECT user_id FROM user WHERE username = ?', (u_name,))
+    u_id = c.fetchone()
+    u_id = u_id[0]
+    return u_id
+
+
 # User Makes an Account (Register)
 def add_user(name, password):
     user = (name, password)
