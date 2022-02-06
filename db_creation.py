@@ -57,6 +57,7 @@ c.execute(
 c.execute(
     '''CREATE TABLE IF NOT EXISTS users_games(user_id integer, '''
     '''game_id integer, '''
+    '''review text, '''
     '''PRIMARY KEY (user_id, game_id), '''
     '''FOREIGN KEY (user_id) REFERENCES user(user_id), '''
     '''FOREIGN KEY (game_id) REFERENCES game(game_id))'''

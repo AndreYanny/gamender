@@ -40,18 +40,38 @@ def change_username(u_id, name):
     conn.commit()
 
 
-# Return All the Games Liked by a User
-def get_user_games(u_id):
-    c.execute('SELECT game_id FROM users_games WHERE user_id = ?', (u_id,))
-    games = c.fetchall()
-    return games
+# User Adds a New Game to their Games Library
+def add_game(game_name, u_id, game_review):
+    c.execute('SELECT game_id FROM game WHERE game_name = ?', (game_name,))
+    game_id = c.fetchone()
+    game_id = game_id[0]
+    c.execute('SELECT game_id FROM users_games WHERE game_id = ?', (game_id,))
+    if not c.fetchone():
+        c.execute('INSERT INTO users_games (user_id, game_id, review) VALUES (?, ?, ?)', (u_id, game_id, game_review))
+    else:
+        print("Game already exists in your library")
+    conn.commit()
+
+
+# User Removes a Game from their Games Library
+def remove_game(game_name, u_id):
+    c.execute('SELECT game_id FROM game WHERE game_name = ?', (game_name,))
+    game_id = c.fetchone()
+    game_id = game_id[0]
+    c.execute('SELECT game_id FROM users_games WHERE user_id = ? AND game_id = ?', (u_id, game_id))
+    if not c.fetchone():
+        print("Game does not exist")
+    else:
+        c.execute('DELETE FROM users_games WHERE user_id = ? AND game_id = ?', (u_id, game_id))
+    conn.commit()
 
 
 # User Adds their Favourite Genres
 def add_genre(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
-    c.execute('SELECT * FROM genre WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
+    genre_id = genre_id[0]
+    c.execute('SELECT * FROM users_genres WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
     if not c.fetchone():
         c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
     conn.commit()
@@ -61,15 +81,13 @@ def add_genre(genre_name, u_id):
 def delete_genres(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
+    genre_id = genre_id[0]
     c.execute('DELETE FROM users_genres WHERE u_id = ? AND genre_id = ?', (u_id, genre_id))
     conn.commit()
 
 
-# Add User to Handlers Table
-def add_user_to_handlers(u_id):
-    c.execute('SELECT username FROM user WHERE user_id = ?', (u_id,))
-    name = c.fetchone()
-    c.execute('SELECT name FROM handler WHERE name = ?', (name,))
-    if not c.fetchone():
-        c.execute('INSERT INTO handler (name) VALUES (?)', (name,))
-    conn.commit()
+# Return All the Games Liked by a User
+def get_user_games(u_id):
+    c.execute('SELECT game_id FROM users_games WHERE user_id = ?', (u_id,))
+    games = c.fetchall()
+    return games
