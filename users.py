@@ -25,9 +25,9 @@ def get_user_id(u_name):
 # User Makes an Account (Register)
 def add_user(name, password):
     user = (name, password)
-    c.execute('SELECT username FROM users WHERE username = ?', (name,))
+    c.execute('SELECT username FROM user WHERE username = ?', (name,))
     if not c.fetchone():
-        c.execute('INSERT INTO users (username, password) VALUES (?, ?)', user)
+        c.execute('INSERT INTO user (username, password) VALUES (?, ?)', user)
     else:
         print("Username already exists")
     conn.commit()
@@ -35,7 +35,7 @@ def add_user(name, password):
 
 def login(name, password):
     user = (name, password)
-    c.execute('SELECT * FROM users WHERE username = ? AND password = ?', user)
+    c.execute('SELECT * FROM user WHERE username = ? AND password = ?', user)
     if not c.fetchone():
         print("Username and password do not match")
     else:
