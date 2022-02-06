@@ -1,8 +1,25 @@
 import sqlite3
 import games as g
+import os
 
-conn = sqlite3.connect('gamender.db')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "gamender.db")
+conn = sqlite3.connect(db_path)
 c = conn.cursor()
+
+
+def get_handler_id(h_name):
+    c.execute('SELECT handler_id FROM handler WHERE handler_name = ?', (h_name,))
+    h_id = c.fetchone()
+    h_id = h_id[0]
+    return h_id
+
+
+def get_handler_name(h_id):
+    c.execute('SELECT handler_name FROM handler WHERE handler_id = ?', (h_id,))
+    h_name = c.fetchone()
+    h_name = h_name[0]
+    return h_name
 
 
 def add_handler(h_id):
