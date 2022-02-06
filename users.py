@@ -1,4 +1,5 @@
 import sqlite3
+import games as g
 
 conn = sqlite3.connect('gamender.db')
 c = conn.cursor()
@@ -78,12 +79,21 @@ def add_genre(genre_name, u_id):
 
 
 # Remove a Genre from the User's Favourite Genres
-def delete_genres(genre_name, u_id):
+def delete_genre(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
     genre_id = genre_id[0]
-    c.execute('DELETE FROM users_genres WHERE u_id = ? AND genre_id = ?', (u_id, genre_id))
+    c.execute('DELETE FROM users_genres WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
     conn.commit()
+
+
+# Get User Game Review (0 or 1)
+def get_game_review(u_id, game_name):
+    game_id = g.get_game_id(game_name)
+    c.execute('SELECT review FROM users_games WHERE user_id = ? AND game_id = ?', (u_id, game_id))
+    game_review = c.fetchone()
+    game_review = game_review[0]
+    return game_review
 
 
 # Return All the Games Liked by a User
