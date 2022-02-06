@@ -25,7 +25,7 @@ def get_handler_name(h_id):
 def add_handler(h_id):
     c.execute('SELECT handler_id FROM handler WHERE handler_id = ?', (h_id,))
     if not c.fetchone():
-        c.execute('INSERT INTO handlers (handler_id) VALUES (?)', (h_id,))
+        c.execute('INSERT INTO handler (handler_id) VALUES (?)', (h_id,))
     conn.commit()
 
 
