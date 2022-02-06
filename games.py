@@ -42,11 +42,3 @@ def add_game_score(game_name, score):
     c.execute('UPDATE game SET score = ? WHERE game_id = ?', (score, game_id))
     conn.commit()
     print(game_name + " " + str(score) + " done")
-
-
-# Get Top Game in a Genre
-def get_top_game(genre_id):
-    c.execute('SELECT game_id, MAX(score) FROM game WHERE genre_id = ?', (genre_id,))
-    top_game = c.fetchone()
-    top_game = top_game[0]
-    return top_game

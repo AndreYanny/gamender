@@ -1,6 +1,6 @@
 import sqlite3
-import games as g
 import os
+import games as g
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "gamender.db")
@@ -93,6 +93,13 @@ def add_genre(genre_name, u_id):
     if not c.fetchone():
         c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
     conn.commit()
+
+
+# Return User's Favourite Genres
+def get_fav_genres(u_id):
+    c.execute('SELECT genre_id FROM users_genres WHERE user_id = ?', (u_id,))
+    genres = c.fetchall()
+    return genres
 
 
 # Remove a Genre from the User's Favourite Genres
