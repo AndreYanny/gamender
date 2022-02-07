@@ -163,6 +163,13 @@ def home():
     top_game2 = g.get_game_name(top_game_id2)
     top_game3 = g.get_game_name(top_game_id3)
 
+    collab_list = u.get_user_games(user_id)
+    collab_games_id = get_top_game(collab_list)
+    collab_games = []
+    for i in collab_games_id:
+        collab_games.append(g.get_game_name(i))
+    collab_games_conc = ', '.join(collab_games)
+
     home_screen = Toplevel(login_success_screen)
     home_screen.title("Home")
     home_screen.geometry("500x350")
@@ -174,6 +181,7 @@ def home():
     Label(home_screen, text=genre3 + ":", font='Calibre 10 bold').pack()
     Label(home_screen, text=top_game3).pack()
     Label(home_screen, text="Recommendations for you:", font='Calibre 10 bold').pack()
+    Label(home_screen, text=collab_games_conc).pack()
     Button(home_screen, text="Review Game", command=review_game).pack()
     Button(home_screen, text="Change Favourite Genres", command=change_fav_genres).pack()
     Label(home_screen, text='').pack()
@@ -270,6 +278,10 @@ def review_game():
 
     Label(review_game_screen, text='').grid(row=0, column=8)
     Label(review_game_screen, text='').grid(row=10, column=4)
+
+    Button(review_game_screen, text="Save").grid(row=11, column=4)
+    Label(review_game_screen, text='').grid(row=12, column=4)
+    Label(review_game_screen, text='').grid(row=13, column=4)
 
 
 # Designing Changing Favourite Genres Window
