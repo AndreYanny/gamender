@@ -1,4 +1,7 @@
 from tkinter import *
+import pandas as pd
+from collections import Counter
+from itertools import chain
 import os
 import sqlite3
 import users as u
@@ -9,10 +12,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "gamender.db")
 conn = sqlite3.connect(db_path)
 c = conn.cursor()
+data_neighbours = pd.read_sql_query("SELECT * FROM collaboration", conn, index_col='game_id')
 
 
-# Designing window for registration
-
+# Designing Registration Window
 def register():
     global register_screen
     register_screen = Toplevel(main_screen)
@@ -56,8 +59,7 @@ def register():
     Button(register_screen, text="Register", width=10, height=1, command=register_user).pack()
 
 
-# Designing window for login 
-
+# Designing Login Window
 def login():
     global login_screen
     login_screen = Toplevel(main_screen)
@@ -87,7 +89,6 @@ def login():
 
 
 # Implementing event on register button
-
 def register_user():
     username_info = username.get()
     password_info = password.get()
@@ -101,7 +102,6 @@ def register_user():
 
 
 # Implementing event on login button
-
 def login_verify():
     global username1
     username1 = username_verify.get()
@@ -119,20 +119,20 @@ def login_verify():
 
 
 # Designing popup for login success
-
 def login_sucess():
     global login_success_screen
+
     login_success_screen = Toplevel(login_screen)
     login_success_screen.title("Success")
-    login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="Welcome back!").pack()
+    login_success_screen.geometry("250x100")
+
+    Label(login_success_screen, text="Welcome back!", pady=5).pack()
     Button(login_success_screen, text="Surprise me...", command=home).pack()
     global user_id
     user_id = u.get_user_id(username1)
 
 
 # Designing popup for login invalid password
-
 def password_not_recognised():
     global password_not_recog_screen
     password_not_recog_screen = Toplevel(login_screen)
@@ -142,6 +142,7 @@ def password_not_recognised():
     Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
 
 
+# Designing Home
 def home():
     global home_screen
 
@@ -172,96 +173,132 @@ def home():
     Label(home_screen, text=top_game2).pack()
     Label(home_screen, text=genre3 + ":", font='Calibre 10 bold').pack()
     Label(home_screen, text=top_game3).pack()
+    Label(home_screen, text="Recommendations for you:", font='Calibre 10 bold').pack()
     Button(home_screen, text="Review Game", command=review_game).pack()
+    Button(home_screen, text="Change Favourite Genres", command=change_fav_genres).pack()
+    Label(home_screen, text='').pack()
 
 
+# Designing Reviewing a Game Window
 def review_game():
     global review_game_screen
 
     review_game_screen = Toplevel(home_screen)
     review_game_screen.title("Review Game")
 
-    Label(review_game_screen, text="Positive").grid(row=0, column=1)
-    Label(review_game_screen, text="Negative").grid(row=0, column=2)
+    Label(review_game_screen, text='').grid(row=0, column=0)
 
-    Label(review_game_screen, text="Dying Light 2").grid(row=1, column=0)
-    Checkbutton(review_game_screen).grid(row=1, column=1)
+    Label(review_game_screen, text="Positive", pady=5).grid(row=0, column=2)
+    Label(review_game_screen, text="Negative", pady=5).grid(row=0, column=3)
+
+    Label(review_game_screen, text="Dying Light 2").grid(row=1, column=1)
     Checkbutton(review_game_screen).grid(row=1, column=2)
+    Checkbutton(review_game_screen).grid(row=1, column=3)
 
-    Label(review_game_screen, text="The Witcher 3 Wild Hunt").grid(row=2, column=0)
-    Checkbutton(review_game_screen).grid(row=2, column=1)
+    Label(review_game_screen, text="The Witcher 3 Wild Hunt").grid(row=2, column=1)
     Checkbutton(review_game_screen).grid(row=2, column=2)
+    Checkbutton(review_game_screen).grid(row=2, column=3)
 
-    Label(review_game_screen, text="Cities Skylines").grid(row=3, column=0)
-    Checkbutton(review_game_screen).grid(row=3, column=1)
+    Label(review_game_screen, text="Cities Skylines").grid(row=3, column=1)
     Checkbutton(review_game_screen).grid(row=3, column=2)
+    Checkbutton(review_game_screen).grid(row=3, column=3)
 
-    Label(review_game_screen, text="Crusader Kings 3").grid(row=4, column=0)
-    Checkbutton(review_game_screen).grid(row=4, column=1)
+    Label(review_game_screen, text="Crusader Kings 3").grid(row=4, column=1)
     Checkbutton(review_game_screen).grid(row=4, column=2)
+    Checkbutton(review_game_screen).grid(row=4, column=3)
 
-    Label(review_game_screen, text="Civilization 6").grid(row=5, column=0)
-    Checkbutton(review_game_screen).grid(row=5, column=1)
+    Label(review_game_screen, text="Civilization 6").grid(row=5, column=1)
     Checkbutton(review_game_screen).grid(row=5, column=2)
+    Checkbutton(review_game_screen).grid(row=5, column=3)
 
-    Label(review_game_screen, text="Humankind").grid(row=6, column=0)
-    Checkbutton(review_game_screen).grid(row=6, column=1)
+    Label(review_game_screen, text="Humankind").grid(row=6, column=1)
     Checkbutton(review_game_screen).grid(row=6, column=2)
+    Checkbutton(review_game_screen).grid(row=6, column=3)
 
-    Label(review_game_screen, text="Forza Horizon 5").grid(row=7, column=0)
-    Checkbutton(review_game_screen).grid(row=7, column=1)
+    Label(review_game_screen, text="Forza Horizon 5").grid(row=7, column=1)
     Checkbutton(review_game_screen).grid(row=7, column=2)
+    Checkbutton(review_game_screen).grid(row=7, column=3)
 
-    Label(review_game_screen, text="FIFA 22").grid(row=8, column=0)
-    Checkbutton(review_game_screen).grid(row=8, column=1)
+    Label(review_game_screen, text="FIFA 22").grid(row=8, column=1)
     Checkbutton(review_game_screen).grid(row=8, column=2)
+    Checkbutton(review_game_screen).grid(row=8, column=3)
 
-    Label(review_game_screen, text="Riders Republic").grid(row=9, column=0)
-    Checkbutton(review_game_screen).grid(row=9, column=1)
+    Label(review_game_screen, text="Riders Republic").grid(row=9, column=1)
     Checkbutton(review_game_screen).grid(row=9, column=2)
+    Checkbutton(review_game_screen).grid(row=9, column=3)
 
-    Label(review_game_screen, text="Positive").grid(row=0, column=4)
-    Label(review_game_screen, text="Negative").grid(row=0, column=5)
+    Label(review_game_screen, text='    ').grid(row=0, column=4)
 
-    Label(review_game_screen, text="God of War").grid(row=1, column=3)
-    Checkbutton(review_game_screen).grid(row=1, column=4)
-    Checkbutton(review_game_screen).grid(row=1, column=5)
+    Label(review_game_screen, text="Positive", pady=5).grid(row=0, column=6)
+    Label(review_game_screen, text="Negative", pady=5).grid(row=0, column=7)
 
-    Label(review_game_screen, text="The Elder Scrolls Online").grid(row=2, column=3)
-    Checkbutton(review_game_screen).grid(row=2, column=4)
-    Checkbutton(review_game_screen).grid(row=2, column=5)
+    Label(review_game_screen, text="God of War").grid(row=1, column=5)
+    Checkbutton(review_game_screen).grid(row=1, column=6)
+    Checkbutton(review_game_screen).grid(row=1, column=7)
 
-    Label(review_game_screen, text="Disco Elysium").grid(row=3, column=3)
-    Checkbutton(review_game_screen).grid(row=3, column=4)
-    Checkbutton(review_game_screen).grid(row=3, column=5)
+    Label(review_game_screen, text="The Elder Scrolls Online").grid(row=2, column=5)
+    Checkbutton(review_game_screen).grid(row=2, column=6)
+    Checkbutton(review_game_screen).grid(row=2, column=7)
 
-    Label(review_game_screen, text="Life is Strange").grid(row=4, column=3)
-    Checkbutton(review_game_screen).grid(row=4, column=4)
-    Checkbutton(review_game_screen).grid(row=4, column=5)
+    Label(review_game_screen, text="Disco Elysium").grid(row=3, column=5)
+    Checkbutton(review_game_screen).grid(row=3, column=6)
+    Checkbutton(review_game_screen).grid(row=3, column=7)
 
-    Label(review_game_screen, text="It Takes Two").grid(row=5, column=3)
-    Checkbutton(review_game_screen).grid(row=5, column=4)
-    Checkbutton(review_game_screen).grid(row=5, column=5)
+    Label(review_game_screen, text="Life is Strange").grid(row=4, column=5)
+    Checkbutton(review_game_screen).grid(row=4, column=6)
+    Checkbutton(review_game_screen).grid(row=4, column=7)
 
-    Label(review_game_screen, text="The Sims 4").grid(row=6, column=3)
-    Checkbutton(review_game_screen).grid(row=6, column=4)
-    Checkbutton(review_game_screen).grid(row=6, column=5)
+    Label(review_game_screen, text="It Takes Two").grid(row=5, column=5)
+    Checkbutton(review_game_screen).grid(row=5, column=6)
+    Checkbutton(review_game_screen).grid(row=5, column=7)
 
-    Label(review_game_screen, text="Nobody Saves the World").grid(row=7, column=3)
-    Checkbutton(review_game_screen).grid(row=7, column=4)
-    Checkbutton(review_game_screen).grid(row=7, column=5)
+    Label(review_game_screen, text="The Sims 4").grid(row=6, column=5)
+    Checkbutton(review_game_screen).grid(row=6, column=6)
+    Checkbutton(review_game_screen).grid(row=6, column=7)
 
-    Label(review_game_screen, text="Planet Zoo").grid(row=8, column=3)
-    Checkbutton(review_game_screen).grid(row=8, column=4)
-    Checkbutton(review_game_screen).grid(row=8, column=5)
+    Label(review_game_screen, text="Nobody Saves the World").grid(row=7, column=5)
+    Checkbutton(review_game_screen).grid(row=7, column=6)
+    Checkbutton(review_game_screen).grid(row=7, column=7)
 
-    Label(review_game_screen, text="Metal Gear Rising").grid(row=9, column=3)
-    Checkbutton(review_game_screen).grid(row=9, column=4)
-    Checkbutton(review_game_screen).grid(row=9, column=5)
+    Label(review_game_screen, text="Planet Zoo").grid(row=8, column=5)
+    Checkbutton(review_game_screen).grid(row=8, column=6)
+    Checkbutton(review_game_screen).grid(row=8, column=7)
+
+    Label(review_game_screen, text="Metal Gear Rising").grid(row=9, column=5)
+    Checkbutton(review_game_screen).grid(row=9, column=6)
+    Checkbutton(review_game_screen).grid(row=9, column=7)
+
+    Label(review_game_screen, text='').grid(row=0, column=8)
+    Label(review_game_screen, text='').grid(row=10, column=4)
+
+
+# Designing Changing Favourite Genres Window
+def change_fav_genres():
+    global change_f_g_screen
+
+    change_f_g_screen = Toplevel(home_screen)
+    change_f_g_screen.title("Change Favourite Genres")
+
+    CheckVar1 = IntVar()
+    CheckVar2 = IntVar()
+    CheckVar3 = IntVar()
+    CheckVar4 = IntVar()
+    CheckVar5 = IntVar()
+    CheckVar6 = IntVar()
+
+    Checkbutton(change_f_g_screen, text="Action", variable=CheckVar1, onvalue=1, offvalue=0, width=20).pack()
+    Checkbutton(change_f_g_screen, text="Adventure", variable=CheckVar2, onvalue=1, offvalue=0, width=20).pack()
+    Checkbutton(change_f_g_screen, text="RPG", variable=CheckVar3, onvalue=1, offvalue=0, width=20).pack()
+    Checkbutton(change_f_g_screen, text="Simulation", variable=CheckVar4, onvalue=1, offvalue=0, width=20).pack()
+    Checkbutton(change_f_g_screen, text="Strategy", variable=CheckVar5, onvalue=1, offvalue=0, width=20).pack()
+    Checkbutton(change_f_g_screen, text="Sports & Racing", variable=CheckVar6, onvalue=1, offvalue=0, width=20).pack()
+
+    Label(change_f_g_screen, text='').pack()
+    Button(change_f_g_screen, text="Save", width=10, height=1).pack()
+    Label(change_f_g_screen, text='').pack()
 
 
 # Deleting popups
-
 def delete_login_success():
     login_success_screen.destroy()
 
@@ -270,8 +307,33 @@ def delete_password_not_recognised():
     password_not_recog_screen.destroy()
 
 
-# Designing Main(first) window
+def remove_already_played(a, b):
+    for i in a[:]:
+        if i in b:
+            a.remove(i)
 
+
+def get_top_game(games_list):
+    common = []
+    listoflists = []
+    if len(games_list) == 1:
+        common.append(data_neighbours.iloc[games_list[0] - 1, 0])
+        return common
+    else:
+        n = len(games_list)
+        for j in range(0, n):
+            listoflists.append(list(data_neighbours.iloc[games_list[j] - 1]))
+        common = list(chain.from_iterable(listoflists))
+        commonofmany = [k for k, v in Counter(common).items() if v > 1]
+        if len(commonofmany) > 0:
+            remove_already_played(commonofmany, games_list)
+            return commonofmany
+        else:
+            remove_already_played(common, games_list)
+            return list(dict.fromkeys(common))
+
+
+# Designing Main Window (First Window)
 def main_account_screen():
     global main_screen
     main_screen = Tk()
