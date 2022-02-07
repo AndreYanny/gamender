@@ -200,53 +200,62 @@ def review_game():
     Label(review_game_screen, text="Negative", pady=5).grid(row=0, column=3)
 
     Label(review_game_screen, text="Dying Light 2").grid(row=1, column=1)
+    global radiobutton_dying_light
     radiobutton_dying_light = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_dying_light, value=1).grid(row=1, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_dying_light, value=0).grid(row=1, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_dying_light, value=1).grid(row=1, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_dying_light, value=0).grid(row=1, column=3)
 
     Label(review_game_screen, text="The Witcher 3 Wild Hunt").grid(row=2, column=1)
+    global radiobutton_witcher
     radiobutton_witcher = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_witcher, value=1).grid(row=2, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_witcher, value=0).grid(row=2, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_witcher, value=1).grid(row=2, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_witcher, value=0).grid(row=2, column=3)
 
     Label(review_game_screen, text="Cities Skylines").grid(row=3, column=1)
+    global radiobutton_cities_skylines
     radiobutton_cities_skylines = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_cities_skylines, value=1).grid(row=3,
-                                                                                                         column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_cities_skylines, value=0).grid(row=3,
-                                                                                                         column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_cities_skylines, value=1).grid(row=3,
+                                                                                        column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_cities_skylines, value=0).grid(row=3,
+                                                                                        column=3)
 
     Label(review_game_screen, text="Crusader Kings 3").grid(row=4, column=1)
+    global radiobutton_crusader_kings
     radiobutton_crusader_kings = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_crusader_kings, value=1).grid(row=4, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_crusader_kings, value=0).grid(row=4, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_crusader_kings, value=1).grid(row=4, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_crusader_kings, value=0).grid(row=4, column=3)
 
     Label(review_game_screen, text="Civilization 6").grid(row=5, column=1)
+    global radiobutton_civilization
     radiobutton_civilization = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_civilization, value=1).grid(row=5, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_civilization, value=0).grid(row=5, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_civilization, value=1).grid(row=5, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_civilization, value=0).grid(row=5, column=3)
 
     Label(review_game_screen, text="Humankind").grid(row=6, column=1)
+    global radiobutton_humankind
     radiobutton_humankind = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_humankind, value=1).grid(row=6, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_humankind, value=0).grid(row=6, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_humankind, value=1).grid(row=6, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_humankind, value=0).grid(row=6, column=3)
 
     Label(review_game_screen, text="Forza Horizon 5").grid(row=7, column=1)
+    global radiobutton_forza_horizon
     radiobutton_forza_horizon = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_forza_horizon, value=1).grid(row=7, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_forza_horizon, value=0).grid(row=7, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_forza_horizon, value=1).grid(row=7, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_forza_horizon, value=0).grid(row=7, column=3)
 
     Label(review_game_screen, text="FIFA 22").grid(row=8, column=1)
+    global radiobutton_fifa
     radiobutton_fifa = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_fifa, value=1).grid(row=8, column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_fifa, value=0).grid(row=8, column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_fifa, value=1).grid(row=8, column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_fifa, value=0).grid(row=8, column=3)
 
     Label(review_game_screen, text="Riders Republic").grid(row=9, column=1)
+    global radiobutton_riders_republic
     radiobutton_riders_republic = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_riders_republic, value=1).grid(row=9,
-                                                                                                         column=2)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_riders_republic, value=0).grid(row=9,
-                                                                                                         column=3)
+    Radiobutton(review_game_screen, variable=radiobutton_riders_republic, value=1).grid(row=9,
+                                                                                        column=2)
+    Radiobutton(review_game_screen, variable=radiobutton_riders_republic, value=0).grid(row=9,
+                                                                                        column=3)
 
     Label(review_game_screen, text='    ').grid(row=0, column=4)
 
@@ -254,57 +263,66 @@ def review_game():
     Label(review_game_screen, text="Negative", pady=5).grid(row=0, column=7)
 
     Label(review_game_screen, text="God of War").grid(row=1, column=5)
+    global radiobutton_god_of_war
     radiobutton_god_of_war = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_god_of_war, value=1).grid(row=1, column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_god_of_war, value=0).grid(row=1, column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_god_of_war, value=1).grid(row=1, column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_god_of_war, value=0).grid(row=1, column=7)
 
     Label(review_game_screen, text="The Elder Scrolls Online").grid(row=2, column=5)
+    global radiobutton_elder_scrolls_online
     radiobutton_elder_scrolls_online = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_elder_scrolls_online, value=1).grid(row=2,
-                                                                                                              column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_elder_scrolls_online, value=0).grid(row=2,
-                                                                                                              column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_elder_scrolls_online, value=1).grid(row=2,
+                                                                                             column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_elder_scrolls_online, value=0).grid(row=2,
+                                                                                             column=7)
 
     Label(review_game_screen, text="Disco Elysium").grid(row=3, column=5)
+    global radiobutton_disco_elysium
     radiobutton_disco_elysium = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_disco_elysium, value=1).grid(row=3, column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_disco_elysium, value=0).grid(row=3, column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_disco_elysium, value=1).grid(row=3, column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_disco_elysium, value=0).grid(row=3, column=7)
 
     Label(review_game_screen, text="Life is Strange").grid(row=4, column=5)
+    global radiobutton_life_is_strange
     radiobutton_life_is_strange = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_life_is_strange, value=1).grid(row=4,
-                                                                                                         column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_life_is_strange, value=0).grid(row=4,
-                                                                                                         column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_life_is_strange, value=1).grid(row=4,
+                                                                                        column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_life_is_strange, value=0).grid(row=4,
+                                                                                        column=7)
 
     Label(review_game_screen, text="It Takes Two").grid(row=5, column=5)
+    global radiobutton_it_takes_two
     radiobutton_it_takes_two = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_it_takes_two, value=1).grid(row=5, column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_it_takes_two, value=0).grid(row=5, column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_it_takes_two, value=1).grid(row=5, column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_it_takes_two, value=0).grid(row=5, column=7)
 
     Label(review_game_screen, text="The Sims 4").grid(row=6, column=5)
+    global radiobutton_sims
     radiobutton_sims = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_sims, value=1).grid(row=6, column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_sims, value=0).grid(row=6, column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_sims, value=1).grid(row=6, column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_sims, value=0).grid(row=6, column=7)
 
     Label(review_game_screen, text="Nobody Saves the World").grid(row=7, column=5)
+    global radiobutton_nobody_saves_the_world
     radiobutton_nobody_saves_the_world = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_nobody_saves_the_world, value=1).grid(row=7,
-                                                                                                                column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_nobody_saves_the_world, value=0).grid(row=7,
-                                                                                                                column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_nobody_saves_the_world, value=1).grid(row=7,
+                                                                                               column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_nobody_saves_the_world, value=0).grid(row=7,
+                                                                                               column=7)
 
     Label(review_game_screen, text="Planet Zoo").grid(row=8, column=5)
+    global radiobutton_planet_zoo
     radiobutton_planet_zoo = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_planet_zoo, value=1).grid(row=8, column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_planet_zoo, value=0).grid(row=8, column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_planet_zoo, value=1).grid(row=8, column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_planet_zoo, value=0).grid(row=8, column=7)
 
     Label(review_game_screen, text="Metal Gear Rising").grid(row=9, column=5)
+    global radiobutton_metal_gear_rising
     radiobutton_metal_gear_rising = IntVar()
-    Radiobutton(review_game_screen, text="Positive", variable=radiobutton_metal_gear_rising, value=1).grid(row=9,
-                                                                                                           column=6)
-    Radiobutton(review_game_screen, text="Negative", variable=radiobutton_metal_gear_rising, value=0).grid(row=9,
-                                                                                                           column=7)
+    Radiobutton(review_game_screen, variable=radiobutton_metal_gear_rising, value=1).grid(row=9,
+                                                                                          column=6)
+    Radiobutton(review_game_screen, variable=radiobutton_metal_gear_rising, value=0).grid(row=9,
+                                                                                          column=7)
 
     Label(review_game_screen, text='').grid(row=0, column=8)
     Label(review_game_screen, text='').grid(row=10, column=4)
@@ -335,9 +353,7 @@ def change_fav_genres():
     Checkbutton(change_f_g_screen, text="Strategy", variable=CheckVar5, onvalue=1, offvalue=0, width=20).pack()
     Checkbutton(change_f_g_screen, text="Sports & Racing", variable=CheckVar6, onvalue=1, offvalue=0, width=20).pack()
 
-    Label(change_f_g_screen, text='').pack()
     Button(change_f_g_screen, text="Save", width=10, height=1).pack()
-    Label(change_f_g_screen, text='').pack()
 
 
 # Deleting popups
