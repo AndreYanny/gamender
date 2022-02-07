@@ -124,4 +124,7 @@ def get_game_review(u_id, game_name):
 def get_user_games(u_id):
     c.execute('SELECT game_id FROM users_games WHERE user_id = ?', (u_id,))
     games = c.fetchall()
-    return games
+    listed_games = []
+    for i in games:
+        listed_games.append(i[0])
+    return listed_games
