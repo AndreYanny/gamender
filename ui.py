@@ -332,6 +332,38 @@ def review_game():
     Label(review_game_screen, text='').grid(row=13, column=4)
 
 
+class Checkbar(Frame):
+    def __init__(self, parent=None, picks=[], maxpicks=2, side=LEFT, anchor=W):
+        Frame.__init__(self, parent)
+        self.maxpicks = maxpicks
+        self.numpicks = 0
+        self.vars = []
+        for pick in picks:
+            var = IntVar()
+            chk = Checkbutton(self, text=pick, variable=var,
+                              command=checkmax(self, var))
+            chk.pack(side=side, anchor=anchor, expand=YES)
+            self.vars.append(var)
+
+    def state(self):
+        return map((lambda var: var.get()), self.vars)
+
+
+def checkmax(bar, var):
+    # called after the intvar is changed
+    def _check():
+        print(bar.numpicks, var.get())
+        if var.get():  # checked
+            if bar.numpicks < bar.maxpicks:
+                bar.numpicks += 1
+            else:
+                var.set(0)
+        else:  # unchecked
+            bar.numpicks -= 1
+
+    return _check
+
+
 # Designing Changing Favourite Genres Window
 def change_fav_genres():
     global change_f_g_screen
@@ -339,21 +371,18 @@ def change_fav_genres():
     change_f_g_screen = Toplevel(home_screen)
     change_f_g_screen.title("Change Favourite Genres")
 
-    CheckVar1 = IntVar()
-    CheckVar2 = IntVar()
-    CheckVar3 = IntVar()
-    CheckVar4 = IntVar()
-    CheckVar5 = IntVar()
-    CheckVar6 = IntVar()
+    lng = Checkbar(change_f_g_screen, ['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy', 'Sports & Racing'], 3)
 
-    Checkbutton(change_f_g_screen, text="Action", variable=CheckVar1, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(change_f_g_screen, text="Adventure", variable=CheckVar2, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(change_f_g_screen, text="RPG", variable=CheckVar3, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(change_f_g_screen, text="Simulation", variable=CheckVar4, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(change_f_g_screen, text="Strategy", variable=CheckVar5, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(change_f_g_screen, text="Sports & Racing", variable=CheckVar6, onvalue=1, offvalue=0, width=20).pack()
+    lng.pack(side=TOP, fill=BOTH)
 
-    Button(change_f_g_screen, text="Save", width=10, height=1).pack()
+    lng.config(relief=GROOVE, bd=2)
+
+    def allstates():
+        print(list(lng.state()))
+
+    Button(change_f_g_screen, text='Quit', command=change_f_g_screen.quit).pack(side=RIGHT)
+    Button(change_f_g_screen, text='submit', command=allstates).pack(side=RIGHT)
+    change_f_g_screen.mainloop()
 
 
 # Deleting popups
