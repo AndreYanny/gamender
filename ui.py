@@ -181,6 +181,85 @@ def review_game():
     review_game_screen = Toplevel(home_screen)
     review_game_screen.title("Review Game")
 
+    Label(review_game_screen, text="Positive").grid(row=0, column=1)
+    Label(review_game_screen, text="Negative").grid(row=0, column=2)
+
+    Label(review_game_screen, text="Dying Light 2").grid(row=1, column=0)
+    Checkbutton(review_game_screen).grid(row=1, column=1)
+    Checkbutton(review_game_screen).grid(row=1, column=2)
+
+    Label(review_game_screen, text="The Witcher 3 Wild Hunt").grid(row=2, column=0)
+    Checkbutton(review_game_screen).grid(row=2, column=1)
+    Checkbutton(review_game_screen).grid(row=2, column=2)
+
+    Label(review_game_screen, text="Cities Skylines").grid(row=3, column=0)
+    Checkbutton(review_game_screen).grid(row=3, column=1)
+    Checkbutton(review_game_screen).grid(row=3, column=2)
+
+    Label(review_game_screen, text="Crusader Kings 3").grid(row=4, column=0)
+    Checkbutton(review_game_screen).grid(row=4, column=1)
+    Checkbutton(review_game_screen).grid(row=4, column=2)
+
+    Label(review_game_screen, text="Civilization 6").grid(row=5, column=0)
+    Checkbutton(review_game_screen).grid(row=5, column=1)
+    Checkbutton(review_game_screen).grid(row=5, column=2)
+
+    Label(review_game_screen, text="Humankind").grid(row=6, column=0)
+    Checkbutton(review_game_screen).grid(row=6, column=1)
+    Checkbutton(review_game_screen).grid(row=6, column=2)
+
+    Label(review_game_screen, text="Forza Horizon 5").grid(row=7, column=0)
+    Checkbutton(review_game_screen).grid(row=7, column=1)
+    Checkbutton(review_game_screen).grid(row=7, column=2)
+
+    Label(review_game_screen, text="FIFA 22").grid(row=8, column=0)
+    Checkbutton(review_game_screen).grid(row=8, column=1)
+    Checkbutton(review_game_screen).grid(row=8, column=2)
+
+    Label(review_game_screen, text="Riders Republic").grid(row=9, column=0)
+    Checkbutton(review_game_screen).grid(row=9, column=1)
+    Checkbutton(review_game_screen).grid(row=9, column=2)
+
+    Label(review_game_screen, text="Positive").grid(row=0, column=4)
+    Label(review_game_screen, text="Negative").grid(row=0, column=5)
+
+    Label(review_game_screen, text="God of War").grid(row=1, column=3)
+    Checkbutton(review_game_screen).grid(row=1, column=4)
+    Checkbutton(review_game_screen).grid(row=1, column=5)
+
+    Label(review_game_screen, text="The Elder Scrolls Online").grid(row=2, column=3)
+    Checkbutton(review_game_screen).grid(row=2, column=4)
+    Checkbutton(review_game_screen).grid(row=2, column=5)
+
+    Label(review_game_screen, text="Disco Elysium").grid(row=3, column=3)
+    Checkbutton(review_game_screen).grid(row=3, column=4)
+    Checkbutton(review_game_screen).grid(row=3, column=5)
+
+    Label(review_game_screen, text="Life is Strange").grid(row=4, column=3)
+    Checkbutton(review_game_screen).grid(row=4, column=4)
+    Checkbutton(review_game_screen).grid(row=4, column=5)
+
+    Label(review_game_screen, text="It Takes Two").grid(row=5, column=3)
+    Checkbutton(review_game_screen).grid(row=5, column=4)
+    Checkbutton(review_game_screen).grid(row=5, column=5)
+
+    Label(review_game_screen, text="The Sims 4").grid(row=6, column=3)
+    Checkbutton(review_game_screen).grid(row=6, column=4)
+    Checkbutton(review_game_screen).grid(row=6, column=5)
+
+    Label(review_game_screen, text="Nobody Saves the World").grid(row=7, column=3)
+    Checkbutton(review_game_screen).grid(row=7, column=4)
+    Checkbutton(review_game_screen).grid(row=7, column=5)
+
+    Label(review_game_screen, text="Planet Zoo").grid(row=8, column=3)
+    Checkbutton(review_game_screen).grid(row=8, column=4)
+    Checkbutton(review_game_screen).grid(row=8, column=5)
+
+    Label(review_game_screen, text="Metal Gear Rising").grid(row=9, column=3)
+    Checkbutton(review_game_screen).grid(row=9, column=4)
+    Checkbutton(review_game_screen).grid(row=9, column=5)
+
+
 
 # Deleting popups
 
