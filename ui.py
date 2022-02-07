@@ -395,7 +395,9 @@ def change_fav_genres():
     lng.config(relief=GROOVE, bd=2)
 
     def allstates():
-        print(list(lng.state()))
+        index_pos_list = [i for i in range(len(list(lng.state()))) if
+                          list(lng.state())[i] == 1]
+        print(index_pos_list)
 
     Button(change_f_g_screen, text='submit', command=allstates).pack(side=RIGHT)
     change_f_g_screen.mainloop()
