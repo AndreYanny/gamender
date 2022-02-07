@@ -260,7 +260,6 @@ def review_game():
     Checkbutton(review_game_screen).grid(row=9, column=5)
 
 
-
 # Deleting popups
 
 def delete_login_success():
