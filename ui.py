@@ -13,6 +13,7 @@ db_path = os.path.join(BASE_DIR, "gamender.db")
 conn = sqlite3.connect(db_path)
 c = conn.cursor()
 data_neighbours = pd.read_sql_query("SELECT * FROM collaboration", conn, index_col='game_id')
+global radiobutton_nobody_saves_the_world
 
 
 # Designing Registration Window
@@ -303,7 +304,7 @@ def review_game():
     Radiobutton(review_game_screen, variable=radiobutton_sims, value=0).grid(row=6, column=7)
 
     Label(review_game_screen, text="Nobody Saves the World").grid(row=7, column=5)
-    global radiobutton_nobody_saves_the_world
+
     radiobutton_nobody_saves_the_world = IntVar()
     Radiobutton(review_game_screen, variable=radiobutton_nobody_saves_the_world, value=1).grid(row=7,
                                                                                                column=6)
@@ -327,9 +328,25 @@ def review_game():
     Label(review_game_screen, text='').grid(row=0, column=8)
     Label(review_game_screen, text='').grid(row=10, column=4)
 
-    Button(review_game_screen, text="Save").grid(row=11, column=4)
-    Label(review_game_screen, text='').grid(row=12, column=4)
-    Label(review_game_screen, text='').grid(row=13, column=4)
+    def updatedb():
+        list_i_will_kill_you_for_making_me_do_this = [radiobutton_dying_light.get(), radiobutton_witcher.get(),
+                                                      radiobutton_cities_skylines.get(),
+                                                      radiobutton_crusader_kings.get(),
+                                                      radiobutton_civilization.get(), radiobutton_humankind.get(),
+                                                      radiobutton_forza_horizon.get(), radiobutton_fifa.get(),
+                                                      radiobutton_riders_republic.get(), radiobutton_god_of_war.get(),
+                                                      radiobutton_elder_scrolls_online.get(),
+                                                      radiobutton_disco_elysium.get(),
+                                                      radiobutton_life_is_strange.get(),
+                                                      radiobutton_it_takes_two.get(), radiobutton_sims.get(),
+                                                      radiobutton_nobody_saves_the_world.get(),
+                                                      radiobutton_planet_zoo.get(), radiobutton_metal_gear_rising.get(),
+                                                      ]
+        index_pos_list = [i for i in range(len(list_i_will_kill_you_for_making_me_do_this)) if
+                          list_i_will_kill_you_for_making_me_do_this[i] == 1]
+        print(index_pos_list)
+
+    Button(review_game_screen, text="Save", command=updatedb).grid(row=11, column=4)
 
 
 class Checkbar(Frame):
@@ -380,7 +397,6 @@ def change_fav_genres():
     def allstates():
         print(list(lng.state()))
 
-    Button(change_f_g_screen, text='Quit', command=change_f_g_screen.quit).pack(side=RIGHT)
     Button(change_f_g_screen, text='submit', command=allstates).pack(side=RIGHT)
     change_f_g_screen.mainloop()
 
