@@ -1,3 +1,4 @@
+from time import sleep
 from tkinter import *
 import pandas as pd
 from collections import Counter
@@ -16,6 +17,159 @@ data_neighbours = pd.read_sql_query("SELECT * FROM collaboration", conn, index_c
 global radiobutton_nobody_saves_the_world
 
 
+def refresh(self):
+    self.destroy()
+    self.__init__()
+    # self.pack(side=TOP, fill=BOTH)
+    # self.config(relief=GROOVE, bd=2)
+
+
+class homepage(Frame):
+    def __init__(self, *args, **kwargs):
+        Frame.__init__(self, *args, **kwargs)
+        self.genres = u.get_fav_genres(user_id)
+        self.genre1 = ge.get_genre_name(self.genres[0][0])
+        self.genre2 = ge.get_genre_name(self.genres[1][0])
+        self.genre3 = ge.get_genre_name(self.genres[2][0])
+
+        self.genre_id1 = ge.get_genre_id(self.genre1)
+        self.genre_id2 = ge.get_genre_id(self.genre2)
+        self.genre_id3 = ge.get_genre_id(self.genre3)
+
+        self.top_game_id1 = ge.get_top_game(self.genre_id1)
+        self.top_game_id2 = ge.get_top_game(self.genre_id2)
+        self.top_game_id3 = ge.get_top_game(self.genre_id3)
+
+        self.top_game1 = g.get_game_name(self.top_game_id1)
+        self.top_game2 = g.get_game_name(self.top_game_id2)
+        self.top_game3 = g.get_game_name(self.top_game_id3)
+        self.collab_list = u.get_user_games(user_id)
+        self.collab_games_id = get_top_game(self.collab_list)
+        self.collab_games = []
+        for i in self.collab_games_id:
+            self.collab_games.append(g.get_game_name(i))
+        self.collab_games_conc = ', '.join(self.collab_games)
+
+        ##########HENA################
+        Label(self, text="GAMENDER", font=32, pady=20).pack()
+        Label(self, text=self.genre1 + ":", font='Calibre 10 bold').pack()
+        Label(self, text=self.top_game1).pack()
+        Label(self, text=self.genre2 + ":", font='Calibre 10 bold').pack()
+        Label(self, text=self.top_game2).pack()
+        Label(self, text=self.genre3 + ":", font='Calibre 10 bold').pack()
+        Label(self, text=self.top_game3).pack()
+        Label(self, text="Recommendations for you:", font='Calibre 10 bold').pack()
+        Label(self, text=self.collab_games_conc).pack()
+        Button(self, text="Review Game", command=review_game).pack()
+        Button(self, text="Change Favourite Genres", command=change_fav_genres).pack()
+        Label(self, text='').pack()
+        ##########HENA################
+
+
+def logoinscreendestroy():
+    login_screen.destroy()
+
+
+# Implementing event on register button
+def register_user():
+    username_info = username.get()
+    password_info = password.get()
+
+    u.add_user(username_info, password_info)
+
+    username_entry.delete(0, END)
+    password_entry.delete(0, END)
+
+    Label(register_screen, text="Registration Success", fg="green", font=11).pack()
+
+
+# Implementing event on login button
+def login_verify():
+    global username1
+    username1 = username_verify.get()
+    global password1
+    password1 = password_verify.get()
+    username_login_entry.delete(0, END)
+    password_login_entry.delete(0, END)
+
+    user = (username1, password1)
+    c.execute('SELECT * FROM user WHERE username = ? AND password = ?', user)
+    if not c.fetchone():
+        password_not_recognised()
+    else:
+        login_sucess()
+
+
+class Checkbar(Frame):
+    def __init__(self, parent=None, picks=[], maxpicks=2, side=LEFT, anchor=W):
+        Frame.__init__(self, parent)
+        self.maxpicks = maxpicks
+        self.numpicks = 0
+        self.vars = []
+        for pick in picks:
+            var = IntVar()
+            chk = Checkbutton(self, text=pick, variable=var,
+                              command=checkmax(self, var))
+            chk.pack(side=side, anchor=anchor, expand=YES)
+            self.vars.append(var)
+
+    def state(self):
+        return map((lambda var: var.get()), self.vars)
+
+
+def checkmax(bar, var):
+    # called after the intvar is changed
+    def _check():
+        print(bar.numpicks, var.get())
+        if var.get():  # checked
+            if bar.numpicks < bar.maxpicks:
+                bar.numpicks += 1
+            else:
+                var.set(0)
+        else:  # unchecked
+            bar.numpicks -= 1
+
+    return _check
+
+
+# Deleting popups
+def delete_login_success():
+    login_success_screen.destroy()
+
+
+def delete_password_not_recognised():
+    password_not_recog_screen.destroy()
+
+
+def remove_already_played(a, b):
+    for i in a[:]:
+        if i in b:
+            a.remove(i)
+
+
+def get_top_game(games_list):
+    common = []
+    listoflists = []
+    if len(games_list) == 1:
+        common.append(data_neighbours.iloc[games_list[0] - 1, 0])
+        return common
+    else:
+        n = len(games_list)
+        for j in range(0, n):
+            listoflists.append(list(data_neighbours.iloc[games_list[j] - 1]))
+        common = list(chain.from_iterable(listoflists))
+        commonofmany = [k for k, v in Counter(common).items() if v > 1]
+        if len(commonofmany) > 0:
+            remove_already_played(commonofmany, games_list)
+            return commonofmany
+        else:
+            remove_already_played(common, games_list)
+            return list(dict.fromkeys(common))
+
+
+###################################
+################UI#################
+###################################
 # Designing Registration Window
 def register():
     global register_screen
@@ -89,41 +243,11 @@ def login():
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
 
 
-# Implementing event on register button
-def register_user():
-    username_info = username.get()
-    password_info = password.get()
-
-    u.add_user(username_info, password_info)
-
-    username_entry.delete(0, END)
-    password_entry.delete(0, END)
-
-    Label(register_screen, text="Registration Success", fg="green", font=11).pack()
-
-
-# Implementing event on login button
-def login_verify():
-    global username1
-    username1 = username_verify.get()
-    global password1
-    password1 = password_verify.get()
-    username_login_entry.delete(0, END)
-    password_login_entry.delete(0, END)
-
-    user = (username1, password1)
-    c.execute('SELECT * FROM user WHERE username = ? AND password = ?', user)
-    if not c.fetchone():
-        password_not_recognised()
-    else:
-        login_sucess()
-
-
 # Designing popup for login success
 def login_sucess():
     global login_success_screen
-
-    login_success_screen = Toplevel(login_screen)
+    logoinscreendestroy()
+    login_success_screen = Toplevel(main_screen)
     login_success_screen.title("Success")
     login_success_screen.geometry("250x100")
 
@@ -145,47 +269,25 @@ def password_not_recognised():
 
 # Designing Home
 def home():
+    # delete_login_success()
     global home_screen
-
-    genres = u.get_fav_genres(user_id)
-    genre1 = ge.get_genre_name(genres[0][0])
-    genre2 = ge.get_genre_name(genres[1][0])
-    genre3 = ge.get_genre_name(genres[2][0])
-
-    genre_id1 = ge.get_genre_id(genre1)
-    genre_id2 = ge.get_genre_id(genre2)
-    genre_id3 = ge.get_genre_id(genre3)
-
-    top_game_id1 = ge.get_top_game(genre_id1)
-    top_game_id2 = ge.get_top_game(genre_id2)
-    top_game_id3 = ge.get_top_game(genre_id3)
-
-    top_game1 = g.get_game_name(top_game_id1)
-    top_game2 = g.get_game_name(top_game_id2)
-    top_game3 = g.get_game_name(top_game_id3)
-
-    collab_list = u.get_user_games(user_id)
-    collab_games_id = get_top_game(collab_list)
-    collab_games = []
-    for i in collab_games_id:
-        collab_games.append(g.get_game_name(i))
-    collab_games_conc = ', '.join(collab_games)
-
-    home_screen = Toplevel(login_success_screen)
+    delete_login_success()
+    main_account_screen_destroy()
+    home_screen = Tk()
     home_screen.title("Home")
     home_screen.geometry("500x350")
-    Label(home_screen, text="GAMENDER", font=32, pady=20).pack()
-    Label(home_screen, text=genre1 + ":", font='Calibre 10 bold').pack()
-    Label(home_screen, text=top_game1).pack()
-    Label(home_screen, text=genre2 + ":", font='Calibre 10 bold').pack()
-    Label(home_screen, text=top_game2).pack()
-    Label(home_screen, text=genre3 + ":", font='Calibre 10 bold').pack()
-    Label(home_screen, text=top_game3).pack()
-    Label(home_screen, text="Recommendations for you:", font='Calibre 10 bold').pack()
-    Label(home_screen, text=collab_games_conc).pack()
-    Button(home_screen, text="Review Game", command=review_game).pack()
-    Button(home_screen, text="Change Favourite Genres", command=change_fav_genres).pack()
-    Label(home_screen, text='').pack()
+    hm = homepage(home_screen)
+
+    hm.pack(side=TOP, fill=BOTH)
+
+    # hm.config(relief=GROOVE, bd=2)
+
+    def refreshs():
+        refresh(home_screen)
+        hm.pack()
+
+    Button(home_screen, text="Refresh", command=refreshs).pack()
+    home_screen.mainloop()
 
 
 # Designing Reviewing a Game Window
@@ -349,38 +451,6 @@ def review_game():
     Button(review_game_screen, text="Save", command=updatedb).grid(row=11, column=4)
 
 
-class Checkbar(Frame):
-    def __init__(self, parent=None, picks=[], maxpicks=2, side=LEFT, anchor=W):
-        Frame.__init__(self, parent)
-        self.maxpicks = maxpicks
-        self.numpicks = 0
-        self.vars = []
-        for pick in picks:
-            var = IntVar()
-            chk = Checkbutton(self, text=pick, variable=var,
-                              command=checkmax(self, var))
-            chk.pack(side=side, anchor=anchor, expand=YES)
-            self.vars.append(var)
-
-    def state(self):
-        return map((lambda var: var.get()), self.vars)
-
-
-def checkmax(bar, var):
-    # called after the intvar is changed
-    def _check():
-        print(bar.numpicks, var.get())
-        if var.get():  # checked
-            if bar.numpicks < bar.maxpicks:
-                bar.numpicks += 1
-            else:
-                var.set(0)
-        else:  # unchecked
-            bar.numpicks -= 1
-
-    return _check
-
-
 # Designing Changing Favourite Genres Window
 def change_fav_genres():
     global change_f_g_screen
@@ -403,41 +473,6 @@ def change_fav_genres():
     change_f_g_screen.mainloop()
 
 
-# Deleting popups
-def delete_login_success():
-    login_success_screen.destroy()
-
-
-def delete_password_not_recognised():
-    password_not_recog_screen.destroy()
-
-
-def remove_already_played(a, b):
-    for i in a[:]:
-        if i in b:
-            a.remove(i)
-
-
-def get_top_game(games_list):
-    common = []
-    listoflists = []
-    if len(games_list) == 1:
-        common.append(data_neighbours.iloc[games_list[0] - 1, 0])
-        return common
-    else:
-        n = len(games_list)
-        for j in range(0, n):
-            listoflists.append(list(data_neighbours.iloc[games_list[j] - 1]))
-        common = list(chain.from_iterable(listoflists))
-        commonofmany = [k for k, v in Counter(common).items() if v > 1]
-        if len(commonofmany) > 0:
-            remove_already_played(commonofmany, games_list)
-            return commonofmany
-        else:
-            remove_already_played(common, games_list)
-            return list(dict.fromkeys(common))
-
-
 # Designing Main Window (First Window)
 def main_account_screen():
     global main_screen
@@ -451,3 +486,7 @@ def main_account_screen():
     Button(text="Register", height="2", width="30", command=register).pack()
 
     main_screen.mainloop()
+
+
+def main_account_screen_destroy():
+    main_screen.destroy()
