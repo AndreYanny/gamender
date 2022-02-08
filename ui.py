@@ -17,6 +17,18 @@ data_neighbours = pd.read_sql_query("SELECT * FROM collaboration", conn, index_c
 global radiobutton_nobody_saves_the_world
 
 
+def updategenres(list, user):
+    c.execute('DELETE FROM users_genres WHERE user_id = ?', (user,))
+    conn.commit()
+    for i in list:
+        u.add_genre_byid(i + 1, user)
+
+
+def addlikedgames(list, user):
+    for i in list:
+        u.add_game(user, g_id=i + 1)
+
+
 def refresh(self):
     self.destroy()
     self.__init__()
@@ -46,9 +58,12 @@ class homepage(Frame):
         self.collab_list = u.get_user_games(user_id)
         self.collab_games_id = get_top_game(self.collab_list)
         self.collab_games = []
-        for i in self.collab_games_id:
-            self.collab_games.append(g.get_game_name(i))
-        self.collab_games_conc = ', '.join(self.collab_games)
+        if self.collab_games_id != 0:
+            for i in self.collab_games_id:
+                self.collab_games.append(g.get_game_name(i))
+            self.collab_games_conc = ', '.join(self.collab_games)
+        else:
+            self.collab_games_conc = 'please Review more games for a personalized recommendation'
 
         ##########HENA################
         Label(self, text="GAMENDER", font=32, pady=20).pack()
@@ -74,9 +89,9 @@ def logoinscreendestroy():
 def register_user():
     username_info = username.get()
     password_info = password.get()
-
+    global reg_user_id
     u.add_user(username_info, password_info)
-
+    reg_user_id = u.get_user_id(username_info)
     username_entry.delete(0, END)
     password_entry.delete(0, END)
 
@@ -187,7 +202,7 @@ def register():
     global register_screen
     register_screen = Toplevel(main_screen)
     register_screen.title("Register")
-    register_screen.geometry("300x400")
+    register_screen.geometry("600x300")
 
     global username
     global password
@@ -207,23 +222,20 @@ def register():
     password_entry = Entry(register_screen, textvariable=password, show='*')
     password_entry.pack()
     Label(register_screen, text="").pack()
+    lng = Checkbar(register_screen, ['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy', 'Sports & Racing'], 3)
+    lng.pack(side=TOP, fill=BOTH)
+    lng.config(relief=GROOVE, bd=2)
 
-    CheckVar1 = IntVar()
-    CheckVar2 = IntVar()
-    CheckVar3 = IntVar()
-    CheckVar4 = IntVar()
-    CheckVar5 = IntVar()
-    CheckVar6 = IntVar()
-
-    Checkbutton(register_screen, text="Action", variable=CheckVar1, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(register_screen, text="Adventure", variable=CheckVar2, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(register_screen, text="RPG", variable=CheckVar3, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(register_screen, text="Simulation", variable=CheckVar4, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(register_screen, text="Strategy", variable=CheckVar5, onvalue=1, offvalue=0, width=20).pack()
-    Checkbutton(register_screen, text="Sports & Racing", variable=CheckVar6, onvalue=1, offvalue=0, width=20).pack()
+    def allstates():
+        register_user()
+        index_pos_list = [i for i in range(len(list(lng.state()))) if
+                          list(lng.state())[i] == 1]
+        print(index_pos_list)
+        print(reg_user_id)
+        updategenres(list=index_pos_list, user=reg_user_id)
 
     Label(register_screen, text='').pack()
-    Button(register_screen, text="Register", width=10, height=1, command=register_user).pack()
+    Button(register_screen, text="Register", width=10, height=1, command=allstates).pack()
 
 
 # Designing Login Window
@@ -460,6 +472,8 @@ def review_game():
         index_pos_list = [i for i in range(len(list_i_will_kill_you_for_making_me_do_this)) if
                           list_i_will_kill_you_for_making_me_do_this[i] == 1]
         print(index_pos_list)
+        addlikedgames(user=user_id, list=index_pos_list)
+        destroy_review_game()
 
     Button(review_game_screen, text="Save", command=updatedb).grid(row=11, column=4)
 
@@ -481,6 +495,8 @@ def change_fav_genres():
         index_pos_list = [i for i in range(len(list(lng.state()))) if
                           list(lng.state())[i] == 1]
         print(index_pos_list)
+        updategenres(list=index_pos_list, user=user_id)
+        destroy_fav_genres()
 
     Button(change_f_g_screen, text='submit', command=allstates).pack(side=RIGHT)
     change_f_g_screen.mainloop()

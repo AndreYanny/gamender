@@ -18,7 +18,9 @@ def get_user_name(u_id):
 def get_user_id(u_name):
     c.execute('SELECT user_id FROM user WHERE username = ?', (u_name,))
     u_id = c.fetchone()
+    print(u_id)
     u_id = u_id[0]
+    print(u_id)
     return u_id
 
 
@@ -59,13 +61,14 @@ def change_username(u_id, name):
 
 
 # User Adds a New Game to their Games Library
-def add_game(game_name, u_id, game_review):
-    c.execute('SELECT game_id FROM game WHERE game_name = ?', (game_name,))
-    game_id = c.fetchone()
-    game_id = game_id[0]
-    c.execute('SELECT game_id FROM users_games WHERE game_id = ?', (game_id,))
+def add_game(u_id, game_name=None, g_id=None):
+    if game_name is not None:
+        c.execute('SELECT game_id FROM game WHERE game_name = ?', (game_name,))
+        g_id = c.fetchone()
+        g_id = g_id[0]
+    c.execute('SELECT game_id FROM users_games WHERE game_id = ?', (g_id,))
     if not c.fetchone():
-        c.execute('INSERT INTO users_games (user_id, game_id, review) VALUES (?, ?, ?)', (u_id, game_id, game_review))
+        c.execute('INSERT INTO users_games (user_id, game_id) VALUES (?, ?)', (u_id, g_id))
     else:
         print("Game already exists in your library")
     conn.commit()
@@ -89,6 +92,13 @@ def add_genre(genre_name, u_id):
     c.execute('SELECT genre_id FROM genre WHERE genre_name = ?', (genre_name,))
     genre_id = c.fetchone()
     genre_id = genre_id[0]
+    c.execute('SELECT * FROM users_genres WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
+    if not c.fetchone():
+        c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
+    conn.commit()
+
+
+def add_genre_byid(genre_id, u_id):
     c.execute('SELECT * FROM users_genres WHERE user_id = ? AND genre_id = ?', (u_id, genre_id))
     if not c.fetchone():
         c.execute('INSERT INTO users_genres (user_id, genre_id) VALUES (?, ?)', (u_id, genre_id))
