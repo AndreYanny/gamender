@@ -167,6 +167,18 @@ def get_top_game(games_list):
             return list(dict.fromkeys(common))
 
 
+def destroy_review_game():
+    review_game_screen.destroy()
+
+
+def destroy_fav_genres():
+    change_f_g_screen.destroy()
+
+
+def main_account_screen_destroy():
+    main_screen.destroy()
+
+
 ###################################
 ################UI#################
 ###################################
@@ -269,24 +281,25 @@ def password_not_recognised():
 
 # Designing Home
 def home():
+    def refreshs():
+        refresh(hm)
+        hm.pack()
+
     # delete_login_success()
     global home_screen
     delete_login_success()
     main_account_screen_destroy()
     home_screen = Tk()
+    mainContainer = Frame(home_screen)
     home_screen.title("Home")
     home_screen.geometry("500x350")
-    hm = homepage(home_screen)
-
-    hm.pack(side=TOP, fill=BOTH)
+    hm = homepage(mainContainer)
+    Button(home_screen, text="Refresh", command=refreshs).pack()
+    hm.__init__()
+    hm.pack()
 
     # hm.config(relief=GROOVE, bd=2)
 
-    def refreshs():
-        refresh(home_screen)
-        hm.pack()
-
-    Button(home_screen, text="Refresh", command=refreshs).pack()
     home_screen.mainloop()
 
 
@@ -486,7 +499,3 @@ def main_account_screen():
     Button(text="Register", height="2", width="30", command=register).pack()
 
     main_screen.mainloop()
-
-
-def main_account_screen_destroy():
-    main_screen.destroy()
